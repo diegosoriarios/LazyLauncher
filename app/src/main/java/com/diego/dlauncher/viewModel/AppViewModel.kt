@@ -16,7 +16,8 @@ import kotlinx.coroutines.flow.update
 
 
 data class AppUIState(
-    val apps: ArrayList<AppInfo> = arrayListOf()
+    val apps: ArrayList<AppInfo> = arrayListOf(),
+    val favorites: ArrayList<AppInfo> = arrayListOf()
 )
 
 
@@ -49,7 +50,8 @@ class AppViewModel : ViewModel() {
                     val sortedApps = newApps.sortedBy { it.label.toString() }
                     _uiState.update {
                         it.copy(
-                            apps = ArrayList(sortedApps)
+                            apps = ArrayList(sortedApps),
+                            favorites = arrayListOf(sortedApps[0], sortedApps[1])
                         )
                     }
 //

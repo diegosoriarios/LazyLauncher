@@ -16,12 +16,18 @@
         android:theme="@style/Theme.DLauncher"
         tools:targetApi="31">
         <activity
+            android:name=".screens.MyItem"
+            android:exported="false"
+            android:label="@string/title_activity_my_item"
+            android:theme="@style/Theme.DLauncher" />
+        <activity
             android:name=".MainActivity"
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.DLauncher">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.HOME" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.LAUNCHER" />
