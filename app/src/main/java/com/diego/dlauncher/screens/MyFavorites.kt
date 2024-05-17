@@ -9,10 +9,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import com.diego.dlauncher.viewModel.AppViewModel
 
 @Composable
-fun MyFavorites(appViewModel: AppViewModel = AppViewModel(), onPress: (String) -> Unit, modifier: Modifier) {
+fun MyFavorites(appViewModel: AppViewModel = AppViewModel(LocalContext.current), onPress: (String) -> Unit, modifier: Modifier) {
     val appUiState by appViewModel.uiState.collectAsState()
     val favorites = appUiState.favorites
 

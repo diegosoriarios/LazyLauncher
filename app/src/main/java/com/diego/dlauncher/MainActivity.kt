@@ -1,5 +1,6 @@
 package com.diego.dlauncher
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -22,7 +23,7 @@ import com.diego.dlauncher.viewModel.AppViewModel
 
 
 class MainActivity : ComponentActivity() {
-    val appViewModel = AppViewModel()
+    val appViewModel = AppViewModel(this)
 
     fun openItem(className: String) {
         Log.d("LAUNCHER", className)
@@ -56,16 +57,5 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
-    }
-}
-
-fun mock(v: String) {}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    DLauncherTheme {
-        MyList(AppViewModel(), ::mock, Modifier, {newValue -> })
     }
 }

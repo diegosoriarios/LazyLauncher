@@ -1,8 +1,12 @@
 package com.diego.dlauncher.viewModel;
 
+import android.content.Context
 import android.content.Intent
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
+import android.net.Uri
+import android.os.Bundle
+import android.provider.Settings
 import android.util.Log
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.core.content.ContextCompat.startActivity
@@ -21,10 +25,14 @@ data class AppUIState(
 )
 
 
-class AppViewModel : ViewModel() {
+class AppViewModel(context: Context) : ViewModel() {
     private val _uiState = MutableStateFlow(AppUIState())
     val uiState: StateFlow<AppUIState> = _uiState.asStateFlow()
-    private var packageMananger: PackageManager? = null
+    lateinit var context: Context
+
+    init {
+        this.context = context
+    }
 
     fun loadApps(packageManager: PackageManager) {
         try {
@@ -72,5 +80,23 @@ class AppViewModel : ViewModel() {
         } catch (ex: java.lang.Exception) {
             Log.e("Error loadApps", ex.message.toString() + " loadApps")
         }
+    }
+
+    fun uninstallApp(appInfo: AppInfo) {
+        val packageName = appInfo.name // Replace with the package name of the app you want to uninstall
+
+        val intent = Intent(Intent.ACTION_DELETE)
+        intent.data = Uri.parse("package:$packageName")
+        val options = Bundle()
+        startActivity(this.context, intent, options)
+    }
+
+    fun openConfiguration(appInfo: AppInfo) {
+        val packageName = appInfo.name // Replace with the package name of the app you want to uninstall
+
+        val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+        intent.data = Uri.parse("package:$packageName")
+        val options = Bundle()
+        startActivity(this.context, intent, options)
     }
 }
