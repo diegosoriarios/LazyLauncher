@@ -31,11 +31,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import com.diego.dlauncher.MainActivity
+import com.diego.dlauncher.model.AppInfo
 import com.diego.dlauncher.viewModel.AppViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MyList(appViewModel: AppViewModel = AppViewModel(LocalContext.current), onPress: (String) -> Unit, modifier: Modifier, hideAppList: (Boolean) -> Unit) {
+fun MyList(appViewModel: AppViewModel = AppViewModel(LocalContext.current), modifier: Modifier, hideAppList: (Boolean) -> Unit) {
     val appUiState by appViewModel.uiState.collectAsState()
     val apps = appUiState.apps
 
@@ -43,24 +45,27 @@ fun MyList(appViewModel: AppViewModel = AppViewModel(LocalContext.current), onPr
     var text by remember { mutableStateOf("") }
 
     fun handleOnPress(className: String) {
-        onPress(className)
+        appViewModel.openItem(className)
     }
 
     if (scrollState.isScrollInProgress){
         if (scrollState.value == 0) {
-            hideAppList(true)
+            appViewModel.navigateTo(MainActivity::class.java)
         }
 
     }
         Column(
             modifier = modifier
-                .verticalScroll(scrollState).fillMaxSize()
+                .verticalScroll(scrollState)
+                .fillMaxSize()
         ) {
             if (apps == null || apps.size == 0) {
                 Text(text = "None")
             }
 
-            Box(contentAlignment = Alignment.CenterStart, modifier = Modifier.fillMaxWidth().padding(16.dp)) {
+            Box(contentAlignment = Alignment.CenterStart, modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp)) {
                 TextField(
                     modifier = Modifier.fillMaxWidth(),
                     value = text, onValueChange = { text = it },
@@ -68,8 +73,20 @@ fun MyList(appViewModel: AppViewModel = AppViewModel(LocalContext.current), onPr
             }
 
 
-            apps!!.forEach { app ->
-                MyItem(appInfo = app, ::handleOnPress)
+            if (text.isNotEmpty()) {
+                var filteredList: List<AppInfo> = apps.filter { s -> s.label.toString().lowercase().contains(text.lowercase()) }
+
+                if (filteredList.isEmpty()) {
+                    Text(text = "App not found")
+                }
+
+                filteredList!!.forEach { app ->
+                    MyItem(appInfo = app, ::handleOnPress)
+                }
+            } else {
+                apps!!.forEach { app ->
+                    MyItem(appInfo = app, ::handleOnPress)
+                }
             }
         }
 
