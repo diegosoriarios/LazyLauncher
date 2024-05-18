@@ -1,6 +1,8 @@
 package com.diego.dlauncher.screens
 
+import android.content.Intent
 import android.net.Uri
+import android.os.Bundle
 import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -18,6 +20,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -32,16 +35,18 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
+import com.diego.dlauncher.AppActivity
 import com.diego.dlauncher.viewModel.AppViewModel
 import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
-fun MyPage(appViewModel: AppViewModel, openItem: (String) -> Unit) {
+fun MyPage(appViewModel: AppViewModel) {
     val sheetState = rememberModalBottomSheetState()
     val appListState = rememberModalBottomSheetState()
 
@@ -90,7 +95,8 @@ fun MyPage(appViewModel: AppViewModel, openItem: (String) -> Unit) {
                             showAppList = !isOnTop
                         }
                         y < 0 -> {
-                            showAppList = true
+                            //showAppList = true
+                            appViewModel.navigateTo(AppActivity::class.java)
                         }
                     }
 
@@ -108,7 +114,7 @@ fun MyPage(appViewModel: AppViewModel, openItem: (String) -> Unit) {
         }
 
         if (showAppList) {
-            MyList(appViewModel, onPress = openItem, modifier = Modifier
+            MyList(appViewModel, modifier = Modifier
                 .combinedClickable (
                     onClick = {  },
                     onLongClick = {
@@ -120,7 +126,7 @@ fun MyPage(appViewModel: AppViewModel, openItem: (String) -> Unit) {
                 }
             )
         } else {
-            MyFavorites(appViewModel, onPress = openItem, modifier = Modifier
+            MyFavorites(appViewModel, modifier = Modifier
                 .combinedClickable (
                     onClick = {  },
                     onLongClick = {

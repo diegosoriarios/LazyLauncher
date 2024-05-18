@@ -1,5 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="Theme.DLauncher" parent="android:Theme.Material.Light.NoActionBar" />
+    <style name="Theme.DLauncher" parent="android:Theme.Material.Light.NoActionBar">
+        <item name="android:windowActivityTransitions">true</item>
+
+        <!--<item name="android:windowEnterTransition">@anim/slide_up</item>
+        <item name="android:windowExitTransition">@anim/slide_down</item>-->
+
+        <item name="android:windowBackground">@color/black</item>
+        <item name="android:windowEnterTransition">@transition/slide_down</item>
+        <item name="android:windowExitTransition">@transition/slide_down</item>
+    </style>
+
+    <style name="Theme.DLauncherList" parent="android:Theme.Material.Light.NoActionBar">
+        <item name="android:windowActivityTransitions">true</item>
+
+        <!--<item name="android:windowEnterTransition">@anim/slide_up</item>
+        <item name="android:windowExitTransition">@anim/slide_down</item>-->
+
+        <item name="android:windowBackground">@color/black</item>
+        <item name="android:windowEnterTransition">@transition/slide_up</item>
+        <item name="android:windowExitTransition">@transition/slide_up</item>
+    </style>
 </resources>

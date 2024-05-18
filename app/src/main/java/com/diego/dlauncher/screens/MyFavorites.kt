@@ -13,12 +13,12 @@ import androidx.compose.ui.platform.LocalContext
 import com.diego.dlauncher.viewModel.AppViewModel
 
 @Composable
-fun MyFavorites(appViewModel: AppViewModel = AppViewModel(LocalContext.current), onPress: (String) -> Unit, modifier: Modifier) {
+fun MyFavorites(appViewModel: AppViewModel = AppViewModel(LocalContext.current), modifier: Modifier) {
     val appUiState by appViewModel.uiState.collectAsState()
     val favorites = appUiState.favorites
 
     fun handleOnPress(className: String) {
-        onPress(className)
+        appViewModel.openItem(className)
     }
 
     Column {

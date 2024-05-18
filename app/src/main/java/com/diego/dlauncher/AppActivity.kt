@@ -1,28 +1,21 @@
 package com.diego.dlauncher
 
-import android.content.Context
-import android.content.Intent
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.SheetState
 import androidx.compose.material3.Surface
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import com.diego.dlauncher.screens.MyList
 import com.diego.dlauncher.screens.MyPage
 import com.diego.dlauncher.ui.theme.DLauncherTheme
 import com.diego.dlauncher.viewModel.AppViewModel
 
-
-class MainActivity : ComponentActivity() {
+class AppActivity : ComponentActivity() {
     val appViewModel = AppViewModel(this)
 
     @OptIn(ExperimentalFoundationApi::class)
@@ -35,15 +28,20 @@ class MainActivity : ComponentActivity() {
                 // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier
-                        .fillMaxSize()
-                        .combinedClickable(
-                            onClick = { },
-                            onLongClick = {
-                            },
-                        ),
+                        .fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    MyPage(appViewModel)
+                    MyList(appViewModel, modifier = Modifier
+                        .combinedClickable (
+                            onClick = {  },
+                            onLongClick = {
+                                //showBottomSheet = true
+                            },
+                        ),
+                        hideAppList = { newValue ->  // pass callback function to child Composable
+                            //showAppList = !newValue    // set updated value received from child Composable
+                        }
+                    )
                 }
             }
         }

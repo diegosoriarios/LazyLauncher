@@ -4,7 +4,7 @@
 
     <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES" />
     <uses-permission android:name="android.permission.BIND_APPWIDGET" />
-    <uses-permission android:name="android.permission.REQUEST_DELETE_PACKAGES"/>
+    <uses-permission android:name="android.permission.REQUEST_DELETE_PACKAGES" />
 
     <application
         android:allowBackup="true"
@@ -17,10 +17,14 @@
         android:theme="@style/Theme.DLauncher"
         tools:targetApi="31">
         <activity
+            android:name=".AppActivity"
+            android:theme="@style/Theme.DLauncherList"
+            android:exported="false" />
+        <activity
             android:name=".screens.MyItem"
             android:exported="false"
             android:label="@string/title_activity_my_item"
-            android:theme="@style/Theme.DLauncher" />
+            android:theme="@style/Theme.DLauncherList" />
         <activity
             android:name=".MainActivity"
             android:exported="true"

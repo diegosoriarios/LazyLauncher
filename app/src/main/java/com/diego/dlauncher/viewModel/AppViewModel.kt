@@ -1,10 +1,13 @@
 package com.diego.dlauncher.viewModel;
 
+import android.app.Activity
+import android.app.ActivityOptions
 import android.content.Context
 import android.content.Intent
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
 import android.util.Log
@@ -12,6 +15,7 @@ import androidx.compose.ui.graphics.asImageBitmap
 import androidx.core.content.ContextCompat.startActivity
 import androidx.core.graphics.drawable.toBitmap
 import androidx.lifecycle.ViewModel
+import com.diego.dlauncher.R
 import com.diego.dlauncher.model.AppInfo
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -79,6 +83,27 @@ class AppViewModel(context: Context) : ViewModel() {
             }
         } catch (ex: java.lang.Exception) {
             Log.e("Error loadApps", ex.message.toString() + " loadApps")
+        }
+    }
+
+    fun openItem(className: String) {
+        val launchIntent: Intent? =
+            context.packageManager.getLaunchIntentForPackage(className)
+
+        if (launchIntent != null) {
+            startActivity(context, launchIntent, Bundle())
+        }
+    }
+
+    fun navigateTo(className: Class<*>) {
+        val intent = Intent(context, className)
+        intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
+        context.startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(context as Activity).toBundle())
+
+        if (Build.VERSION.SDK_INT >= 34) {
+            (context as Activity).overrideActivityTransition(Activity.OVERRIDE_TRANSITION_OPEN, R.anim.slide_down, R.anim.slide_up)
+        } else {
+            (context as Activity).overridePendingTransition(R.anim.slide_up, R.anim.slide_down)
         }
     }
 
