@@ -67,7 +67,6 @@ class AppViewModel(context: Context) : ViewModel() {
                     _uiState.update {
                         it.copy(
                             apps = ArrayList(sortedApps),
-                            favorites = arrayListOf(sortedApps[0], sortedApps[1])
                         )
                     }
 //
@@ -150,5 +149,55 @@ class AppViewModel(context: Context) : ViewModel() {
         val wallpaperUri = sharedPref.getString("wallpaper", "https://images.unsplash.com/photo-1518156677180-95a2893f3e9f?q=80&w=3387&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D")
         wallpaper = Uri.parse(wallpaperUri)
         return wallpaper
+    }
+
+    fun updateFavorites(activity: Activity, item: AppInfo) {
+        val sharedPref = activity.getSharedPreferences("favorites", Context.MODE_PRIVATE)
+        var favoritesList: Set<String>? = sharedPref.getStringSet("list", setOf())
+
+        if (favoritesList != null && favoritesList.isEmpty()) {
+            favoritesList = setOf()
+        }
+
+        val set = mutableSetOf<String>()
+        if (favoritesList != null) {
+            for (element in favoritesList) {
+                set.add(element)
+            }
+        }
+        set.add(item.name.toString())
+
+        with (sharedPref.edit()) {
+            putStringSet("list", set)
+            apply()
+        }
+
+        fetchFavorites(activity)
+    }
+
+    fun fetchFavorites(activity: Activity) {
+        val sharedPref = activity.getSharedPreferences("favorites", Context.MODE_PRIVATE)
+        val favoritesList = sharedPref.getStringSet("list", setOf())
+        var favorites: ArrayList<AppInfo> = arrayListOf()
+        if (favoritesList != null && favoritesList.size > 0) {
+
+            favoritesList.forEach {
+                uiState.value.apps.forEach {app ->
+                    if (it == app.name) {
+                        favorites.add(app)
+                    }
+                }
+            }
+        }
+        if (favorites.size == 0) {
+            favorites = arrayListOf(uiState.value.apps[0], uiState.value.apps[0])
+        }
+
+        Log.d("AQUI", "Toast.LENGTH_SHORT")
+        _uiState.update {
+            it.copy(
+                favorites = favorites
+            )
+        }
     }
 }

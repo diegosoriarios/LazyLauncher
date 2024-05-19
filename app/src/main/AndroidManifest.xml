@@ -19,9 +19,12 @@
         android:theme="@style/Theme.DLauncher"
         tools:targetApi="31">
         <activity
-            android:name=".AppActivity"
-            android:theme="@style/Theme.DLauncherList"
+            android:name=".FavoriteActivity"
             android:exported="false" />
+        <activity
+            android:name=".AppActivity"
+            android:exported="false"
+            android:theme="@style/Theme.DLauncherList" />
         <activity
             android:name=".screens.MyItem"
             android:exported="false"

@@ -30,6 +30,10 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         appViewModel.loadApps(packageManager)
         appViewModel.getWallpaper(this)
+        appViewModel.fetchFavorites(this)
+
+        val intent = Intent(this, FavoriteActivity::class.java)
+        startActivity(intent)
 
         setContent {
             DLauncherTheme {
