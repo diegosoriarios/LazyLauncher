@@ -29,6 +29,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         appViewModel.loadApps(packageManager)
+        appViewModel.getWallpaper(this)
 
         setContent {
             DLauncherTheme {

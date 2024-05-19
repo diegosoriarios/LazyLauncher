@@ -1,5 +1,6 @@
 package com.diego.dlauncher
 
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -40,7 +41,8 @@ class AppActivity : ComponentActivity() {
                         ),
                         hideAppList = { newValue ->  // pass callback function to child Composable
                             //showAppList = !newValue    // set updated value received from child Composable
-                        }
+                        },
+                        image = appViewModel.getWallpaper(this)
                     )
                 }
             }

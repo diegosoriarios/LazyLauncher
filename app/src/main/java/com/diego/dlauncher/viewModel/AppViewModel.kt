@@ -2,6 +2,7 @@ package com.diego.dlauncher.viewModel;
 
 import android.app.Activity
 import android.app.ActivityOptions
+import android.content.ContentResolver
 import android.content.Context
 import android.content.Intent
 import android.content.pm.ApplicationInfo
@@ -11,6 +12,7 @@ import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
 import android.util.Log
+import android.widget.Toast
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.core.content.ContextCompat.startActivity
 import androidx.core.graphics.drawable.toBitmap
@@ -21,6 +23,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import java.lang.Exception
 
 
 data class AppUIState(
@@ -32,6 +35,7 @@ data class AppUIState(
 class AppViewModel(context: Context) : ViewModel() {
     private val _uiState = MutableStateFlow(AppUIState())
     val uiState: StateFlow<AppUIState> = _uiState.asStateFlow()
+    var wallpaper = Uri.parse("https://images.unsplash.com/photo-1518156677180-95a2893f3e9f?q=80&w=3387&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D")
     lateinit var context: Context
 
     init {
@@ -123,5 +127,28 @@ class AppViewModel(context: Context) : ViewModel() {
         intent.data = Uri.parse("package:$packageName")
         val options = Bundle()
         startActivity(this.context, intent, options)
+    }
+
+    fun changeWallpaper(uri: Uri) {
+        try {
+            val resolver: ContentResolver = context.contentResolver
+            resolver.openInputStream(uri)?.close()
+            wallpaper = uri
+
+            val sharedPref = (context as Activity).getSharedPreferences("wallpaper", Context.MODE_PRIVATE)
+            with (sharedPref.edit()) {
+                putString("wallpaper", uri.toString())
+                apply()
+            }
+        } catch (e: Exception) {
+            Toast.makeText(context, "Erro" + e.message, Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    fun getWallpaper(activity: Activity): Uri {
+        val sharedPref = activity.getSharedPreferences("wallpaper", Context.MODE_PRIVATE)
+        val wallpaperUri = sharedPref.getString("wallpaper", "https://images.unsplash.com/photo-1518156677180-95a2893f3e9f?q=80&w=3387&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D")
+        wallpaper = Uri.parse(wallpaperUri)
+        return wallpaper
     }
 }

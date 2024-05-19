@@ -1,5 +1,6 @@
 package com.diego.dlauncher.screens
 
+import android.app.WallpaperManager
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -14,7 +15,9 @@ import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -35,6 +38,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
@@ -49,24 +53,28 @@ import kotlin.math.roundToInt
 fun MyPage(appViewModel: AppViewModel) {
     val sheetState = rememberModalBottomSheetState()
     val appListState = rememberModalBottomSheetState()
+    val mWallpaperManager = WallpaperManager.getInstance(LocalContext.current)
 
     val scope = rememberCoroutineScope()
     var showBottomSheet by remember { mutableStateOf(false) }
+    var showConfigBottomSheet by remember { mutableStateOf(false) }
     var offsetX by remember { mutableStateOf(0f) }
     var offsetY by remember { mutableStateOf(0f) }
     var showAppList by remember { mutableStateOf(false) }
     var isOnTop by remember { mutableStateOf(true) }
 
     var imageUri by remember {
-        mutableStateOf<Uri?>(null)
+        mutableStateOf<Uri?>(appViewModel.wallpaper)
     }
 
     val galleryLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.GetContent(),
         onResult = { uri ->
             uri?.let {
+                appViewModel.changeWallpaper(it)
                 imageUri = it
             }
+            showConfigBottomSheet = false
         }
     )
 
@@ -81,6 +89,12 @@ fun MyPage(appViewModel: AppViewModel) {
     Box(
         Modifier.fillMaxSize()
             //.offset { IntOffset(offsetX.roundToInt(), offsetY.roundToInt()) }
+            .combinedClickable(
+                onClick = { },
+                onLongClick = {
+                    showConfigBottomSheet = true
+                },
+            )
             .pointerInput (Unit) {
                 detectDragGestures { change, dragAmount ->
                     change.consume()
@@ -105,27 +119,14 @@ fun MyPage(appViewModel: AppViewModel) {
                 }
             }
     ) {
-        if (imageUri != null) {
-            Image(
-                painter = rememberAsyncImagePainter(model = imageUri),
-                contentDescription = null,
-                modifier = Modifier.fillMaxSize()
-            )
-        }
+        Image(
+            painter = rememberAsyncImagePainter(model = imageUri),
+            contentDescription = null,
+            modifier = Modifier.fillMaxSize(),
+            contentScale = ContentScale.Crop
+        )
 
-        if (showAppList) {
-            MyList(appViewModel, modifier = Modifier
-                .combinedClickable (
-                    onClick = {  },
-                    onLongClick = {
-                        showBottomSheet = true
-                    },
-                ),
-                hideAppList = { newValue ->  // pass callback function to child Composable
-                    showAppList = !newValue    // set updated value received from child Composable
-                }
-            )
-        } else {
+
             MyFavorites(appViewModel, modifier = Modifier
                 .combinedClickable (
                     onClick = {  },
@@ -134,12 +135,11 @@ fun MyPage(appViewModel: AppViewModel) {
                     },
                 )
             )
-        }
 
-        if (showBottomSheet) {
+        if (showConfigBottomSheet) {
             ModalBottomSheet(
                 onDismissRequest = {
-                    showBottomSheet = false
+                    showConfigBottomSheet = false
                 },
                 sheetState = sheetState
             ) {
