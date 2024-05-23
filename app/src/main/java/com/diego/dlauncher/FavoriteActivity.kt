@@ -54,6 +54,8 @@ import com.diego.dlauncher.model.AppInfo
 import com.diego.dlauncher.screens.MyItem
 import com.diego.dlauncher.screens.MyPage
 import com.diego.dlauncher.ui.theme.DLauncherTheme
+import com.diego.dlauncher.ui.theme.Purple80
+import com.diego.dlauncher.ui.theme.PurpleGrey80
 import com.diego.dlauncher.viewModel.AppViewModel
 
 class FavoriteActivity : ComponentActivity() {
@@ -83,6 +85,13 @@ class FavoriteActivity : ComponentActivity() {
                 startActivity(intent)
             }
 
+            fun backgroundColor(): Color {
+                if (selected.size > 2) {
+                    return Purple80
+                }
+                return PurpleGrey80
+            }
+
             DLauncherTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(
@@ -107,11 +116,14 @@ class FavoriteActivity : ComponentActivity() {
                                                 var isAlreadyOnList =
                                                     selected.any { it.label == appInfo.label }
                                                 if (!isAlreadyOnList) {
-                                                    selected.add(appInfo)
+                                                    if (selected.size < 8) {
+                                                        selected.add(appInfo)
+                                                        isSelected = true
+                                                    }
                                                 } else {
                                                     selected.remove(appInfo)
+                                                    isSelected = false
                                                 }
-                                                isSelected = !isAlreadyOnList
                                             }
                                         )
                                         .fillMaxWidth()
@@ -149,7 +161,7 @@ class FavoriteActivity : ComponentActivity() {
                                     handleOnClick()
                                 }, elevation = FloatingActionButtonDefaults.elevation(
                                     defaultElevation = 4.dp
-                                )
+                                ), modifier = Modifier.background(backgroundColor())
                                 ) {
                                     Text("Salvar")
                                 }
