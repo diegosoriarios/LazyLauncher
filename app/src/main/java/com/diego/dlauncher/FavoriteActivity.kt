@@ -67,14 +67,18 @@ class FavoriteActivity : ComponentActivity() {
         appViewModel.getWallpaper(this)
         appViewModel.fetchFavorites(this)
 
+        var initialSelected = arrayListOf<AppInfo>()
+        if (appViewModel.uiState.value.favorites.size != 0) {
+            initialSelected = appViewModel.uiState.value.favorites
+        }
+
         setContent {
-            var selected by remember { mutableStateOf<ArrayList<AppInfo>>(arrayListOf()) }
+            var selected by remember { mutableStateOf<ArrayList<AppInfo>>(initialSelected) }
             val scrollState = rememberScrollState()
 
             fun handleOnClick() {
-                selected.forEach {
-                    appViewModel.updateFavorites(this, it)
-                }
+                appViewModel.updateFavorites(this, selected)
+
                 val intent = Intent(this, MainActivity::class.java)
                 startActivity(intent)
             }
@@ -94,7 +98,7 @@ class FavoriteActivity : ComponentActivity() {
                         }
                         Column(modifier = Modifier.verticalScroll(scrollState)) {
                             appViewModel.uiState.value.apps!!.forEach { appInfo ->
-                                var isSelected by remember { mutableStateOf(false) }
+                                var isSelected by remember { mutableStateOf(selected.any { it.label == appInfo.label }) }
 
                                 Row(verticalAlignment = Alignment.CenterVertically,
                                     modifier = Modifier

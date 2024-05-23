@@ -29,6 +29,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -42,8 +43,10 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
+import androidx.core.content.ContextCompat.startActivity
 import coil.compose.rememberAsyncImagePainter
 import com.diego.dlauncher.AppActivity
+import com.diego.dlauncher.FavoriteActivity
 import com.diego.dlauncher.viewModel.AppViewModel
 import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
@@ -62,6 +65,7 @@ fun MyPage(appViewModel: AppViewModel) {
     var offsetY by remember { mutableStateOf(0f) }
     var showAppList by remember { mutableStateOf(false) }
     var isOnTop by remember { mutableStateOf(true) }
+    val context = LocalContext.current
 
     var imageUri by remember {
         mutableStateOf<Uri?>(appViewModel.wallpaper)
@@ -87,7 +91,8 @@ fun MyPage(appViewModel: AppViewModel) {
     }
 
     Box(
-        Modifier.fillMaxSize()
+        Modifier
+            .fillMaxSize()
             //.offset { IntOffset(offsetX.roundToInt(), offsetY.roundToInt()) }
             .combinedClickable(
                 onClick = { },
@@ -95,19 +100,23 @@ fun MyPage(appViewModel: AppViewModel) {
                     showConfigBottomSheet = true
                 },
             )
-            .pointerInput (Unit) {
+            .pointerInput(Unit) {
                 detectDragGestures { change, dragAmount ->
                     change.consume()
 
-                    val (x,y) = dragAmount
+                    val (x, y) = dragAmount
                     when {
-                        x > 0 ->{ /* right */ }
-                        x < 0 ->{ /* left */ }
+                        x > 0 -> { /* right */
+                        }
+
+                        x < 0 -> { /* left */
+                        }
                     }
                     when {
                         y > 0 -> {
                             showAppList = !isOnTop
                         }
+
                         y < 0 -> {
                             //showAppList = true
                             appViewModel.navigateTo(AppActivity::class.java)
@@ -158,7 +167,16 @@ fun MyPage(appViewModel: AppViewModel) {
                     }
                     HorizontalDivider()
                     Row (modifier = Modifier.padding(16.dp)) {
-                        Text("Change Favorites")
+                        TextButton(
+                            onClick = {
+                                val intent = Intent(context, FavoriteActivity::class.java)
+                                context.startActivity(intent, Bundle())
+                            }
+                        ) {
+                            Text(
+                                text = "Change Favorites"
+                            )
+                        }
                     }
                 }
             }

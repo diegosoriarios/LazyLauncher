@@ -13,10 +13,13 @@ import android.os.Bundle
 import android.provider.Settings
 import android.util.Log
 import android.widget.Toast
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.platform.LocalContext
 import androidx.core.content.ContextCompat.startActivity
 import androidx.core.graphics.drawable.toBitmap
 import androidx.lifecycle.ViewModel
+import com.diego.dlauncher.FavoriteActivity
 import com.diego.dlauncher.R
 import com.diego.dlauncher.model.AppInfo
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -138,21 +141,18 @@ class AppViewModel(context: Context) : ViewModel() {
         return wallpaper
     }
 
-    fun updateFavorites(activity: Activity, item: AppInfo) {
+    fun updateFavorites(activity: Activity, items: ArrayList<AppInfo>) {
         val sharedPref = activity.getSharedPreferences("favorites", Context.MODE_PRIVATE)
-        var favoritesList: Set<String>? = sharedPref.getStringSet("list", setOf())
+        //var favoritesList: Set<String>? = sharedPref.getStringSet("list", setOf())
 
-        if (favoritesList != null && favoritesList.isEmpty()) {
-            favoritesList = setOf()
-        }
 
         val set = mutableSetOf<String>()
-        if (favoritesList != null) {
-            for (element in favoritesList) {
-                set.add(element)
+        if (items != null) {
+            for (element in items) {
+                set.add(element.name.toString())
             }
         }
-        set.add(item.name.toString())
+        //set.add(item.name.toString())
 
         with (sharedPref.edit()) {
             putStringSet("list", set)
@@ -163,6 +163,12 @@ class AppViewModel(context: Context) : ViewModel() {
     }
 
     fun fetchFavorites(activity: Activity) {
+        _uiState.update {
+            it.copy(
+                favorites = arrayListOf()
+            )
+        }
+
         val sharedPref = activity.getSharedPreferences("favorites", Context.MODE_PRIVATE)
         val favoritesList = sharedPref.getStringSet("list", setOf())
         var favorites: ArrayList<AppInfo> = arrayListOf()
@@ -176,6 +182,8 @@ class AppViewModel(context: Context) : ViewModel() {
                 }
             }
         }
+
+        Log.d("TAG", favorites.size.toString())
 
         _uiState.update {
             it.copy(
