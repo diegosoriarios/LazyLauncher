@@ -69,19 +69,6 @@ class AppViewModel(context: Context) : ViewModel() {
                             apps = ArrayList(sortedApps),
                         )
                     }
-//
-//                    for (ri in availableApps) {
-//                        val appInfo = AppInfo()
-//                        appInfo.label = ri.loadLabel(packageManager)
-//                        appInfo.name = ri.activityInfo.packageName
-//                        appInfo.icon = ri.activityInfo.loadIcon(packageManager)
-//                        (apps as ArrayList<AppInfo>).add(appInfo)
-//                    }
-//                    if (apps != null) {
-//                        for (i : AppInfo in apps!!) {
-//                            Log.d("AQUI", i.name.toString())
-//                        }
-//                    }
                 }
             }
         } catch (ex: java.lang.Exception) {
@@ -189,11 +176,7 @@ class AppViewModel(context: Context) : ViewModel() {
                 }
             }
         }
-        if (favorites.size == 0) {
-            favorites = arrayListOf(uiState.value.apps[0], uiState.value.apps[0])
-        }
 
-        Log.d("AQUI", "Toast.LENGTH_SHORT")
         _uiState.update {
             it.copy(
                 favorites = favorites

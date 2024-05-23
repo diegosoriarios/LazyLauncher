@@ -1,5 +1,6 @@
 package com.diego.dlauncher
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -74,6 +75,8 @@ class FavoriteActivity : ComponentActivity() {
                 selected.forEach {
                     appViewModel.updateFavorites(this, it)
                 }
+                val intent = Intent(this, MainActivity::class.java)
+                startActivity(intent)
             }
 
             DLauncherTheme {

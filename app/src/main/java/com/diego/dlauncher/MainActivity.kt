@@ -32,8 +32,10 @@ class MainActivity : ComponentActivity() {
         appViewModel.getWallpaper(this)
         appViewModel.fetchFavorites(this)
 
-        val intent = Intent(this, FavoriteActivity::class.java)
-        startActivity(intent)
+        if (appViewModel.uiState.value.favorites.size == 0) {
+            val intent = Intent(this, FavoriteActivity::class.java)
+            startActivity(intent)
+        }
 
         setContent {
             DLauncherTheme {
