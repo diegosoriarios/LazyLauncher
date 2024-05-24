@@ -1,4 +1,4 @@
-package com.diego.dlauncher.screens
+package com.diego.lazylauncher.screens
 
 import android.app.WallpaperManager
 import android.content.Intent
@@ -45,9 +45,9 @@ import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat.startActivity
 import coil.compose.rememberAsyncImagePainter
-import com.diego.dlauncher.AppActivity
-import com.diego.dlauncher.FavoriteActivity
-import com.diego.dlauncher.viewModel.AppViewModel
+import com.diego.lazylauncher.AppActivity
+import com.diego.lazylauncher.FavoriteActivity
+import com.diego.lazylauncher.viewModel.AppViewModel
 import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
 

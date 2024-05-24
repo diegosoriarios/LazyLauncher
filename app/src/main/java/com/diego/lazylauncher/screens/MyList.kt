@@ -1,4 +1,4 @@
-package com.diego.dlauncher.screens
+package com.diego.lazylauncher.screens
 
 import android.graphics.Paint.Align
 import android.net.Uri
@@ -36,9 +36,9 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
-import com.diego.dlauncher.MainActivity
-import com.diego.dlauncher.model.AppInfo
-import com.diego.dlauncher.viewModel.AppViewModel
+import com.diego.lazylauncher.MainActivity
+import com.diego.lazylauncher.model.AppInfo
+import com.diego.lazylauncher.viewModel.AppViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

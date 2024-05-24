@@ -1,4 +1,4 @@
-package com.diego.dlauncher.model
+package com.diego.lazylauncher.model
 
 import android.graphics.drawable.Drawable
 import androidx.compose.ui.graphics.ImageBitmap

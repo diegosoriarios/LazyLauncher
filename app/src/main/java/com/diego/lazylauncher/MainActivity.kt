@@ -1,4 +1,4 @@
-package com.diego.dlauncher
+package com.diego.lazylauncher
 
 import android.content.Context
 import android.content.Intent
@@ -16,10 +16,10 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.diego.dlauncher.screens.MyList
-import com.diego.dlauncher.screens.MyPage
-import com.diego.dlauncher.ui.theme.DLauncherTheme
-import com.diego.dlauncher.viewModel.AppViewModel
+import com.diego.lazylauncher.screens.MyList
+import com.diego.lazylauncher.screens.MyPage
+import com.diego.lazylauncher.ui.theme.DLauncherTheme
+import com.diego.lazylauncher.viewModel.AppViewModel
 
 
 class MainActivity : ComponentActivity() {

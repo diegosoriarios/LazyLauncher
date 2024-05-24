@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace = "com.diego.dlauncher"
+    namespace = "com.diego.lazylauncher"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.diego.dlauncher"
+        applicationId = "com.diego.lazylauncher"
         minSdk = 24
         targetSdk = 34
         versionCode = 1

@@ -1,4 +1,4 @@
-package com.diego.dlauncher.ui.theme
+package com.diego.lazylauncher.ui.theme
 
 import androidx.compose.ui.graphics.Color
 

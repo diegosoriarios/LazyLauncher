@@ -1,4 +1,4 @@
-package com.diego.dlauncher.screens
+package com.diego.lazylauncher.screens
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -10,7 +10,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import com.diego.dlauncher.viewModel.AppViewModel
+import com.diego.lazylauncher.viewModel.AppViewModel
 
 @Composable
 fun MyFavorites(appViewModel: AppViewModel = AppViewModel(LocalContext.current), modifier: Modifier) {

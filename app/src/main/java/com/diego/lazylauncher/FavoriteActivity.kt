@@ -1,4 +1,4 @@
-package com.diego.dlauncher
+package com.diego.lazylauncher
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -50,13 +50,14 @@ import androidx.compose.ui.graphics.ColorMatrix
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
-import com.diego.dlauncher.model.AppInfo
-import com.diego.dlauncher.screens.MyItem
-import com.diego.dlauncher.screens.MyPage
-import com.diego.dlauncher.ui.theme.DLauncherTheme
-import com.diego.dlauncher.ui.theme.Purple80
-import com.diego.dlauncher.ui.theme.PurpleGrey80
-import com.diego.dlauncher.viewModel.AppViewModel
+import com.diego.lazylauncher.model.AppInfo
+import com.diego.lazylauncher.screens.MyItem
+import com.diego.lazylauncher.screens.MyPage
+import com.diego.lazylauncher.ui.theme.DLauncherTheme
+import com.diego.lazylauncher.ui.theme.Purple40
+import com.diego.lazylauncher.ui.theme.Purple80
+import com.diego.lazylauncher.ui.theme.PurpleGrey80
+import com.diego.lazylauncher.viewModel.AppViewModel
 
 class FavoriteActivity : ComponentActivity() {
     val appViewModel = AppViewModel(this)
@@ -76,6 +77,7 @@ class FavoriteActivity : ComponentActivity() {
 
         setContent {
             var selected by remember { mutableStateOf<ArrayList<AppInfo>>(initialSelected) }
+            var backgroundColor by remember { mutableStateOf(PurpleGrey80) }
             val scrollState = rememberScrollState()
 
             fun handleOnClick() {
@@ -85,13 +87,6 @@ class FavoriteActivity : ComponentActivity() {
                 startActivity(intent)
             }
 
-            fun backgroundColor(): Color {
-                if (selected.size > 2) {
-                    return Purple80
-                }
-                return PurpleGrey80
-            }
-
             DLauncherTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(
@@ -99,6 +94,12 @@ class FavoriteActivity : ComponentActivity() {
                         .fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
+                    backgroundColor = if (selected.size >= 2) {
+                        Purple40
+                    } else {
+                        Purple80
+                    }
+
                     Column(
                         Modifier.fillMaxSize()){
                         Column {
@@ -161,7 +162,7 @@ class FavoriteActivity : ComponentActivity() {
                                     handleOnClick()
                                 }, elevation = FloatingActionButtonDefaults.elevation(
                                     defaultElevation = 4.dp
-                                ), modifier = Modifier.background(backgroundColor())
+                                ), containerColor = backgroundColor
                                 ) {
                                     Text("Salvar")
                                 }

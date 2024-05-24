@@ -1,4 +1,4 @@
-package com.diego.dlauncher
+package com.diego.lazylauncher
 
 import org.junit.Test
 

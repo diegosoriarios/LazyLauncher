@@ -1,4 +1,4 @@
-package com.diego.dlauncher.screens
+package com.diego.lazylauncher.screens
 
 import android.graphics.Typeface
 import androidx.compose.foundation.layout.fillMaxWidth

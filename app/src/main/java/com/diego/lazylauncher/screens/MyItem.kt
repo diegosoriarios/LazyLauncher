@@ -1,4 +1,4 @@
-package com.diego.dlauncher.screens
+package com.diego.lazylauncher.screens
 
 import android.content.Intent
 import android.net.Uri
@@ -27,9 +27,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat.startActivity
-import com.diego.dlauncher.model.AppInfo
-import com.diego.dlauncher.viewModel.AppUIState
-import com.diego.dlauncher.viewModel.AppViewModel
+import com.diego.lazylauncher.model.AppInfo
+import com.diego.lazylauncher.viewModel.AppUIState
+import com.diego.lazylauncher.viewModel.AppViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow

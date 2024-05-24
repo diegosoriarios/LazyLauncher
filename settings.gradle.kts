@@ -13,5 +13,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "DLauncher"
+rootProject.name = "Lazy Launcher"
 include(":app")

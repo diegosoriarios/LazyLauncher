@@ -1,4 +1,4 @@
-package com.diego.dlauncher.viewModel;
+package com.diego.lazylauncher.viewModel;
 
 import android.app.Activity
 import android.app.ActivityOptions
@@ -19,9 +19,9 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.core.content.ContextCompat.startActivity
 import androidx.core.graphics.drawable.toBitmap
 import androidx.lifecycle.ViewModel
-import com.diego.dlauncher.FavoriteActivity
-import com.diego.dlauncher.R
-import com.diego.dlauncher.model.AppInfo
+import com.diego.lazylauncher.FavoriteActivity
+import com.diego.lazylauncher.R
+import com.diego.lazylauncher.model.AppInfo
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow

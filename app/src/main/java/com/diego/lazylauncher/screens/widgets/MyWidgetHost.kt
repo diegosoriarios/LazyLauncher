@@ -1,4 +1,4 @@
-package com.diego.dlauncher.screens.widgets
+package com.diego.lazylauncher.screens.widgets
 
 import android.appwidget.AppWidgetProviderInfo
 import androidx.compose.foundation.layout.fillMaxSize
